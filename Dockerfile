@@ -1,27 +1,27 @@
 FROM ubuntu:16.04
 
-MAINTAINER Jose Fonseca <jose@ditecnologia.com>
+LABEL Author="Osmell Caicedo <@oele_co>"
 
 RUN apt-get clean && apt-get -y update && apt-get install -y locales && locale-gen en_US.UTF-8
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US.UTF-8' LC_ALL='en_US.UTF-8'
 
 RUN apt-get update \
-    && apt-get install -y nginx curl zip unzip git software-properties-common supervisor sqlite3 libxrender1 libxext6 mysql-client \
+    && apt-get install -y vim nginx curl zip unzip git software-properties-common supervisor sqlite3 libxrender1 libxext6 mysql-client \
     && add-apt-repository -y ppa:ondrej/php \
-    && apt-get update \
-    && apt-get install -y php7.3-fpm php7.3-cli php7.3-gd php7.3-mysql \
-       php7.3-imap php-memcached php7.3-mbstring php7.3-xml php7.3-curl \
-       php7.3-sqlite3 php7.3-zip php7.3-pdo-dblib php7.3-bcmath \
-    && php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
+    && apt-get update
+
+RUN apt-get install -y php7.2-fpm php7.2-cli php7.2-gd php7.2-mysql \
+       php7.2-imap php-memcached php7.2-mbstring php7.2-xml php7.2-curl \
+       php7.2-sqlite3 php7.2-zip php7.2-pdo-dblib php7.2-bcmath
+
+RUN apt-get install -y php5.6-fpm php5.6-cli php5.6-gd php5.6-mysql \
+       php5.6-imap php5.6-mbstring php5.6-xml php5.6-curl \
+       php5.6-sqlite3 php5.6-zip php5.6-pdo-dblib php5.6-bcmath
+
+RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
     && mkdir /run/php
 
 RUN update-ca-certificates;
-
-RUN curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
-
-RUN sh nodesource_setup.sh
-
-RUN apt-get install -y nodejs build-essential
 
 RUN curl -fsSL https://get.docker.com -o get-docker.sh
 
@@ -39,9 +39,15 @@ RUN ln -sf /dev/stdout /var/log/nginx/access.log \
 
 COPY default /etc/nginx/sites-available/default
 
-COPY php-fpm.conf /etc/php/7.3/fpm/php-fpm.conf
+COPY ./php/5.6/php-fpm.conf /etc/php/5.6/fpm/php-fpm.conf
+COPY ./php/5.6/www.conf /etc/php/5.6/fpm/pool.d/www.conf
 
-COPY www.conf /etc/php/7.3/fpm/pool.d/www.conf
+COPY ./php/7.2/php-fpm.conf /etc/php/7.2/fpm/php-fpm.conf
+COPY ./php/7.2/www.conf /etc/php/7.2/fpm/pool.d/www.conf
+
+RUN echo "<?php phpinfo(); ?>" > /var/www/html/index.php \
+    && mkdir -p /var/www/ovy/public \
+    && echo "<?php phpinfo(); ?>" > /var/www/ovy/public/index.php
 
 EXPOSE 80
 
