@@ -33,13 +33,16 @@ server {
         rewrite /ovy/(.*)$ /ovy/index.php?/$1 last;
     }
 
-    location /horizon {
+    location ~* ^\/(horizon|vendor).* {
         alias /var/www/ovy/public;
-        try_files $uri $uri/ @horizon;
+        try_files $uri $uri/ @tools;
     }
 
-    location @horizon {
-        rewrite /horizon/(.*)$ /ovy/index.php?/horizon/$1 last;
+    location @tools {
+        if ( $request_uri ~ ^\/horizon ) {
+            rewrite ^/(.*)$ /ovy/index.php?/$1 last;
+        }
+        rewrite ^/(.*)$ /ovy/$1 last;
     }
     
     location ~ \.php$ {
