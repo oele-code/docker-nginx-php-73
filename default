@@ -17,11 +17,12 @@ server {
     
     client_max_body_size      100m;
 
-    location /ovy {
+    location ^~ /ovy {
         alias /var/www/ovy/public;
         try_files $uri $uri/ @ovy;
 
         location ~ \.php$ {
+            fastcgi_split_path_info ^(.+\.php)(.*)$;
             fastcgi_pass        127.0.0.1:9001;
             fastcgi_index       index.php;
             include             fastcgi_params;
