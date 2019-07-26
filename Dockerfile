@@ -70,3 +70,10 @@ EXPOSE 80
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 CMD ["/usr/bin/supervisord"]
+
+RUN echo 'alias a="php artisan"' >> ~/.bashrc
+RUN echo 'alias ar="a route:list"' >> ~/.bashrc
+RUN echo 'alias t="vendor/bin/phpunit"' >> ~/.bashrc
+RUN echo 'alias t-f="t-f"' >> ~/.bashrc
+RUN echo 'alias d="a dusk"' >> ~/.bashrc
+RUN echo 'alias d-f="d --filter"' >> ~/.bashrc
