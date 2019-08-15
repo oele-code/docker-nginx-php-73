@@ -71,7 +71,7 @@ EXPOSE 80
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 CMD ["/usr/bin/supervisord"]
 
-RUN echo 'alias c="clear"' >> >> ~/.bashrc
+RUN echo 'alias c="clear"' >> ~/.bashrc
 RUN echo 'alias a="php artisan"' >> ~/.bashrc
 RUN echo 'alias t="vendor/bin/phpunit"' >> ~/.bashrc
 RUN echo 'alias t-f="t --filter"' >> ~/.bashrc
