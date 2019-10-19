@@ -50,9 +50,14 @@ RUN apt-get remove -y --purge software-properties-common \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 	&& echo "daemon off;" >> /etc/nginx/nginx.conf
 
+RUN ln -sf /dev/stdout/nginx /var/log/nginx/access.log \
+    && ln -sf /dev/stderr/nginx /var/log/nginx/error.log
 
-RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-    && ln -sf /dev/stderr /var/log/nginx/error.log
+RUN ln -sf /dev/stdout/php7.3 /var/log/php/7.3/fpm/access.log \
+    && ln -sf /dev/stderr/php7.3 /var/log/php/7.3/fpm/error.log
+
+RUN ln -sf /dev/stdout/php5.6 /var/log/php/5.6/fpm/access.log \
+    && ln -sf /dev/stderr/php5.6 /var/log/php/5.6/fpm/error.log
 
 COPY default /etc/nginx/sites-available/default
 
