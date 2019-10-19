@@ -20,13 +20,13 @@ RUN apt-get install -y php7.3-fpm php7.3-cli php7.3-gd php7.3-mysql \
        && apt-get update
 
 # Install Xdebug
-RUN echo "xdebug.remote_enable=1" >> /etc/php/7.3/mods-available/xdebug.ini \
-       && echo "xdebug.remote_host=docker.for.mac.localhost" >> /etc/php/7.3/mods-available/xdebug.ini \
-       && echo "xdebug.remote_connect_back=0" >> /etc/php/7.3/mods-available/xdebug.ini \
-       && echo "xdebug.remote_autostart=1" >> /etc/php/7.3/mods-available/xdebug.ini \
-       && echo "xdebug.remote_connect_back=0" >> /etc/php/7.3/mods-available/xdebug.ini \
-       && echo "xdebug.remote_handler=dbgp" >> /etc/php/7.3/mods-available/xdebug.ini \
-       && echo "xdebug.max_nesting_level=250" >> /etc/php/7.3/mods-available/xdebug.ini
+# RUN echo "xdebug.remote_enable=1" >> /etc/php/7.3/mods-available/xdebug.ini \
+#        && echo "xdebug.remote_host=docker.for.mac.localhost" >> /etc/php/7.3/mods-available/xdebug.ini \
+#        && echo "xdebug.remote_connect_back=0" >> /etc/php/7.3/mods-available/xdebug.ini \
+#        && echo "xdebug.remote_autostart=1" >> /etc/php/7.3/mods-available/xdebug.ini \
+#        && echo "xdebug.remote_connect_back=0" >> /etc/php/7.3/mods-available/xdebug.ini \
+#        && echo "xdebug.remote_handler=dbgp" >> /etc/php/7.3/mods-available/xdebug.ini \
+#        && echo "xdebug.max_nesting_level=250" >> /etc/php/7.3/mods-available/xdebug.ini
 
 # Install php5.6
 RUN apt-get install -y php5.6-fpm php5.6-cli php5.6-gd php5.6-mysql \
