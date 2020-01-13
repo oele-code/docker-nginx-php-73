@@ -10,6 +10,7 @@ RUN apt-get update \
        && apt-get install -y  software-properties-common supervisor sqlite3 libxrender1 libxext6 \
        wget vim curl zip unzip git nginx memcached mysql-client \
        && add-apt-repository -y ppa:ondrej/php \
+       && add-apt-repository ppa:jason.grammenos.agility/php \
        && apt-get update
 
 # Install php7.3
@@ -20,13 +21,12 @@ RUN apt-get install -y php7.3-fpm php7.3-cli php7.3-gd php7.3-mysql \
        && apt-get update
 
 # Install Xdebug
-# RUN echo "xdebug.remote_enable=1" >> /etc/php/7.3/mods-available/xdebug.ini \
-#        && echo "xdebug.remote_host=docker.for.mac.localhost" >> /etc/php/7.3/mods-available/xdebug.ini \
-#        && echo "xdebug.remote_connect_back=0" >> /etc/php/7.3/mods-available/xdebug.ini \
-#        && echo "xdebug.remote_autostart=1" >> /etc/php/7.3/mods-available/xdebug.ini \
-#        && echo "xdebug.remote_connect_back=0" >> /etc/php/7.3/mods-available/xdebug.ini \
-#        && echo "xdebug.remote_handler=dbgp" >> /etc/php/7.3/mods-available/xdebug.ini \
-#        && echo "xdebug.max_nesting_level=250" >> /etc/php/7.3/mods-available/xdebug.ini
+RUN echo "xdebug.remote_enable=1" >> /etc/php/7.3/mods-available/xdebug.ini \
+       && echo "xdebug.remote_host=docker.for.mac.localhost" >> /etc/php/7.3/mods-available/xdebug.ini \
+       && echo "xdebug.remote_connect_back=0" >> /etc/php/7.3/mods-available/xdebug.ini \
+       && echo "xdebug.remote_autostart=1" >> /etc/php/7.3/mods-available/xdebug.ini \
+       && echo "xdebug.remote_handler=dbgp" >> /etc/php/7.3/mods-available/xdebug.ini \
+       && echo "xdebug.max_nesting_level=250" >> /etc/php/7.3/mods-available/xdebug.ini
 
 # Install php5.6
 RUN apt-get install -y php5.6-fpm php5.6-cli php5.6-gd php5.6-mysql \
@@ -50,11 +50,11 @@ RUN apt-get remove -y --purge software-properties-common \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 	&& echo "daemon off;" >> /etc/nginx/nginx.conf
 
-RUN ln -sf /dev/stdout/nginx /var/log/nginx/access.log \
-    && ln -sf /dev/stderr/nginx /var/log/nginx/error.log
+# RUN ln -sf /dev/stdout/nginx /var/log/nginx/access.log \
+#     && ln -sf /dev/stderr/nginx /var/log/nginx/error.log
 
-RUN ln -sf /dev/stdout/php7.3 /var/log/www.access.log \
-    && ln -sf /dev/stderr/php7.3 /var/log/php-fpm.log
+# RUN ln -sf /dev/stdout/php7.3 /var/log/www.access.log \
+#     && ln -sf /dev/stderr/php7.3 /var/log/php-fpm.log
 
 # RUN ln -sf /dev/stdout/php5.6 /var/log/php/5.6/fpm/access.log \
 #     && ln -sf /dev/stderr/php5.6 /var/log/php/5.6/fpm/error.log
