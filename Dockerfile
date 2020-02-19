@@ -46,6 +46,7 @@ COPY default /etc/nginx/sites-available/default
 COPY ./php/7.3/php-fpm.conf /etc/php/7.3/fpm/php-fpm.conf
 COPY ./php/7.3/www.conf /etc/php/7.3/fpm/pool.d/www.conf
 COPY ./php/7.3/xdebug.ini /etc/php/7.3/mods-available/xdebug.ini
+COPY ./php/7.3/php.dev.ini /etc/php/7.3/fpm/conf.d/php.dev.ini
 
 # PHP 5.6 Configuration
 COPY ./php/5.6/php-fpm.conf /etc/php/5.6/fpm/php-fpm.conf
