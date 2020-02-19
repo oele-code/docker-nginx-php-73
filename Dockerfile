@@ -20,14 +20,6 @@ RUN apt-get install -y php7.3-fpm php7.3-cli php7.3-gd php7.3-mysql \
        php7.3-gmp php7.3-xdebug php7.3-sqlite \
        && apt-get update
 
-# Install Xdebug
-RUN echo "xdebug.remote_enable=1" >> /etc/php/7.3/mods-available/xdebug.ini \
-       && echo "xdebug.remote_host=docker.for.mac.localhost" >> /etc/php/7.3/mods-available/xdebug.ini \
-       && echo "xdebug.remote_connect_back=0" >> /etc/php/7.3/mods-available/xdebug.ini \
-       && echo "xdebug.remote_autostart=1" >> /etc/php/7.3/mods-available/xdebug.ini \
-       && echo "xdebug.remote_handler=dbgp" >> /etc/php/7.3/mods-available/xdebug.ini \
-       && echo "xdebug.max_nesting_level=250" >> /etc/php/7.3/mods-available/xdebug.ini
-
 # Install php5.6
 RUN apt-get install -y php5.6-fpm php5.6-cli php5.6-gd php5.6-mysql \
        php5.6-imap php5.6-memcached php5.6-mbstring php5.6-xml php5.6-curl \
@@ -39,34 +31,27 @@ RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-di
        && mkdir /run/php
        
 RUN update-ca-certificates;
-
 RUN curl -fsSL https://get.docker.com -o get-docker.sh
-
 RUN sh get-docker.sh
-
 RUN apt-get remove -y --purge software-properties-common \
 	&& apt-get -y autoremove \
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 	&& echo "daemon off;" >> /etc/nginx/nginx.conf
 
-# RUN ln -sf /dev/stdout/nginx /var/log/nginx/access.log \
-#     && ln -sf /dev/stderr/nginx /var/log/nginx/error.log
-
-# RUN ln -sf /dev/stdout/php7.3 /var/log/www.access.log \
-#     && ln -sf /dev/stderr/php7.3 /var/log/php-fpm.log
-
-# RUN ln -sf /dev/stdout/php5.6 /var/log/php/5.6/fpm/access.log \
-#     && ln -sf /dev/stderr/php5.6 /var/log/php/5.6/fpm/error.log
-
+# Default vhost
 COPY default /etc/nginx/sites-available/default
 
+# PHP 7.3 Configuration
+COPY ./php/7.3/php-fpm.conf /etc/php/7.3/fpm/php-fpm.conf
+COPY ./php/7.3/www.conf /etc/php/7.3/fpm/pool.d/www.conf
+COPY ./php/7.3/xdebug.ini /etc/php/7.3/mods-available/xdebug.ini
+
+# PHP 5.6 Configuration
 COPY ./php/5.6/php-fpm.conf /etc/php/5.6/fpm/php-fpm.conf
 COPY ./php/5.6/www.conf /etc/php/5.6/fpm/pool.d/www.conf
 
-COPY ./php/7.3/php-fpm.conf /etc/php/7.3/fpm/php-fpm.conf
-COPY ./php/7.3/www.conf /etc/php/7.3/fpm/pool.d/www.conf
-
+# Default site files
 RUN echo "<?php phpinfo(); ?>" > /var/www/html/index.php \
     && mkdir -p /var/www/ovy/public \
     && echo "<?php phpinfo(); ?>" > /var/www/ovy/public/index.php
