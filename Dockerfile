@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:xenial
 
 LABEL Author="Osmell Caicedo <@oele_co>"
 
