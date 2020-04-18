@@ -7,7 +7,7 @@ RUN apt-get clean && apt-get -y update && apt-get install -y locales --no-instal
 ENV LANG='en_US.UTF-8' LANGUAGE='en_US.UTF-8' LC_ALL='en_US.UTF-8'
 
 # Install tools
-RUN apt-get update && apt-get install -y  software-properties-common supervisor sqlite3 libxrender1 libxext6 \
+RUN apt-get update && apt-get install -y software-properties-common supervisor sqlite3 libxrender1 libxext6 \
        curl vim zip unzip git nginx memcached mysql-client --no-install-recommends \
        && rm -rf /var/lib/apt/lists/*
 
@@ -17,7 +17,7 @@ RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:jason.grammenos.agility/php
 RUN apt-get update && apt-get install -y php7.3-fpm php7.3-cli php7.3-gd php7.3-mysql \
        php7.3-imap php-memcached php7.3-mbstring php7.3-xml php7.3-curl \
        php7.3-sqlite3 php7.3-zip php7.3-pdo-dblib php7.3-bcmath php7.3-ssh2 \
-       php7.3-gmp php7.3-xdebug php7.3-sqlite --no-install-recommends \
+       php7.3-gmp php7.3-xdebug php7.3-sqlite php7.3-imagick --no-install-recommends \
        && rm -rf /var/lib/apt/lists/*
 
 # Install php5.6
@@ -28,8 +28,9 @@ RUN apt-get update && apt-get install -y php5.6-fpm php5.6-cli php5.6-gd php5.6-
 
 # Install composer
 RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
-       && mkdir /run/php
-       
+       && mkdir /run/php \
+       && composer global require hirak/prestissimo
+
 RUN update-ca-certificates;
 RUN curl -fsSL https://get.docker.com -o get-docker.sh
 RUN sh get-docker.sh
