@@ -8,7 +8,7 @@ ENV LANG='en_US.UTF-8' LANGUAGE='en_US.UTF-8' LC_ALL='en_US.UTF-8'
 
 # Install tools
 RUN apt-get update && apt-get install -y software-properties-common supervisor sqlite3 libxrender1 libxext6 \
-       curl vim zip unzip git nginx memcached mysql-client --no-install-recommends \
+       curl vim zip unzip git nginx memcached mysql-client htop --no-install-recommends \
        && rm -rf /var/lib/apt/lists/*
 
 RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:jason.grammenos.agility/php
