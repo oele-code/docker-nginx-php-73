@@ -11,10 +11,10 @@ server {
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location = /robots.txt  { access_log off; log_not_found off; }
-    
+
     access_log                off;
     sendfile                  off;
-    
+
     client_max_body_size      100m;
 
     location ^~ /ovy {
@@ -45,14 +45,14 @@ server {
         }
         rewrite ^/(.*)$ /ovy/$1 last;
     }
-    
+
     location ~ \.php$ {
         root                    /var/www/html;
         fastcgi_pass            127.0.0.1:9002;
         fastcgi_index           index.php;
         include                 fastcgi_params;
         fastcgi_param           SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    } 
+    }
 
     error_page 404 /index.php;
 
