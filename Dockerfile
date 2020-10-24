@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y php5.6-fpm php5.6-cli php5.6-gd php5.6-
        && rm -rf /var/lib/apt/lists/*
 
 # Install composer
-RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
+RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer --version=1.10.16 \
        && mkdir /run/php \
        && composer global require hirak/prestissimo
 
