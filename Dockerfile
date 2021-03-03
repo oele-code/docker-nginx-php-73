@@ -17,7 +17,7 @@ RUN add-apt-repository -y ppa:jason.grammenos.agility/php
 RUN apt-get update && apt-get install -y php7.3-fpm php7.3-cli php7.3-gd php7.3-mysql \
        php7.3-imap php7.3-mbstring php7.3-xml php7.3-curl \
        php7.3-zip php7.3-pdo-dblib php7.3-bcmath php7.3-ssh2 \
-       php7.3-gmp php7.3-xdebug php7.3-sqlite php7.3-imagick --no-install-recommends \
+       php7.3-gmp php7.3-xdebug php7.3-sqlite php7.3-imagick php7.3-intl --no-install-recommends \
        && rm -rf /var/lib/apt/lists/*
 
 # Install php5.6
