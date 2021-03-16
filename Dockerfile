@@ -32,7 +32,7 @@ RUN php -r "readfile('http://getcomposer.org/installer');" | php -- --install-di
        && composer global require hirak/prestissimo
 
 RUN update-ca-certificates;
-RUN curl -sL https://deb.nodesource.com/setup_10.x -o nodesource_setup.sh
+RUN curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh
 RUN sh nodesource_setup.sh
 RUN apt-get install -y nodejs build-essential --no-install-recommends
 RUN curl -fsSL https://get.docker.com -o get-docker.sh
